@@ -37,20 +37,20 @@ const About = () => {
           <div className="md:w-1/2 gap-4  ">
             <div className=" mb-2">
               <img
-                src="/About/main-1.png"
+                src="/about/main-1.png"
                 alt="Food"
                 width={450}
                 height={330} />
             </div>
             <div className=" flex space-x-2">
               <img
-                src="/About/main-2.png"
+                src="/about/main-2.png"
                 alt="Food"
                 width={222}
                 height={194} />
             
               <img
-                src="/About/main-3.png"
+                src="/about/main-3.png"
                 alt="Food"
                 width={222}
                 height={194}

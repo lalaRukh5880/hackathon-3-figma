@@ -11,10 +11,10 @@ const Food = () => {
                 </div>
         
                 <div className='flex justify-center space-x-3 mt-[40px]'>
-                    <Image src="/About/food-1.png" alt="food" width={205} height={286} />
-                    <Image src="/About/food-2.png" alt="food" width={205} height={286} />
-                    <Image src="/About/food-3.png" alt="food" width={205} height={286} />
-                    <Image src="/About/food-4.png" alt="food" width={205} height={286} />
+                    <Image src="/about/food-1.png" alt="food" width={205} height={286} />
+                    <Image src="/about/food-2.png" alt="food" width={205} height={286} />
+                    <Image src="/about/food-3.png" alt="food" width={205} height={286} />
+                    <Image src="/about/food-4.png" alt="food" width={205} height={286} />
                 </div>
         
                
