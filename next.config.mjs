@@ -1,8 +1,17 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    images: {
-      domains: ['cdn.sanity.io'],
-    },
-  };
-  
-   export default nextConfig;
+  reactStrictMode: true, // Enables React's Strict Mode for better error handling
+  swcMinify: true, // Enables SWC-based minification
+  compiler: {
+      styledComponents: true, // Enables styled-components SWC transform
+  },
+  webpack(config, { isServer }) {
+      // Customize Webpack config if needed
+      return config;
+  },
+  images: {
+      domains: ['cdn.sanity.io'], // Allow images from specified domains
+  },
+};
+
+export default nextConfig;
