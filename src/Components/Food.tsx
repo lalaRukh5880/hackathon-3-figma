@@ -22,7 +22,7 @@ const Food = () => {
         
             </div>
             <div className='w-full flex justify-center items-center bg-black mt-[50px]'>
-              <Image src="/Why chose us (1).png "  alt='whs' width={1000} height={600} />
+              <Image src="/Whychoseus(1).png"  alt='whs' width={1000} height={600} />
             </div>
              <div className='w-full flex justify-center items-center '>
             
