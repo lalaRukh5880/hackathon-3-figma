@@ -10,7 +10,13 @@ const nextConfig = {
       return config;
   },
   images: {
-      domains: ['cdn.sanity.io'], // Allow images from specified domains
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'cdn.sanity.io',
+        pathname: '**',
+      },
+    ],
   },
 };
 

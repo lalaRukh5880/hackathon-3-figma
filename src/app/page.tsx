@@ -12,14 +12,7 @@ export default function Home() {
     <Hero /> 
     <About />
     <Food />
-   
-    
     <Hero3 />
-    
-    
-    
-    
-    
   </div>
   )
 }

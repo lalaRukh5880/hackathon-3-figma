@@ -1,13 +1,17 @@
+'use client';
+
 import Image from "next/image";
 import Common from "@/Components/Common";
 import { client } from "@/sanity/lib/client";
 import Link from "next/link";
+import { useState, useEffect, useContext } from "react";
+import { CartContext } from "@/lib/CartContext"; // Corrected import path
 
 type ItemParams = {
   params: { id: string };
 };
 
-async function getItems(id: string) {
+async function fetchItems(id: string) {
   const fetchResult = await client.fetch(
     `*[_type == "food" && _id == $id]{
       _id,
@@ -31,8 +35,44 @@ async function getItems(id: string) {
   return fetchResult[0];
 }
 
-export default async function Page({ params }: ItemParams) {
-  const itemsInfo = await getItems(params.id);
+export default function Page({ params }: ItemParams) {
+  const [itemsInfo, setItemsInfo] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  // Access CartContext
+  const { dispatch } = useContext(CartContext);
+
+  // Fetch item data on mount
+  useEffect(() => {
+    const loadItem = async () => {
+      const itemData = await fetchItems(params.id);
+      setItemsInfo(itemData);
+      setLoading(false);
+    };
+
+    loadItem();
+  }, [params.id]);
+
+  const handleAddToCart = () => {
+    if (itemsInfo) {
+        dispatch({
+            type: "ADD_TO_CART",
+            payload: {
+                id: itemsInfo._id,
+                name: itemsInfo.name,
+                price: itemsInfo.price,
+                imageUrl: itemsInfo.imageUrl, // This will work now
+                quantity: 1, // Default quantity
+            },
+        });
+        alert("Item added to cart!");
+    }
+};
+
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   if (!itemsInfo) {
     return (
@@ -67,11 +107,19 @@ export default async function Page({ params }: ItemParams) {
               <p className="text-sm text-gray-600">
                 Category: {itemsInfo.category}
               </p>
-              <Link href="/shop">
-                <button className="mt-4 bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600">
-                  Back to Shop
+              <div className="flex mt-4 gap-4">
+                <button
+                  onClick={handleAddToCart}
+                  className="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600"
+                >
+                  Add to Cart
                 </button>
-              </Link>
+                <Link href="/shop">
+                  <button className="bg-stone-950 text-white px-4 py-2 rounded hover:bg-gray-400">
+                    Back to Shop
+                  </button>
+                </Link>
+              </div>
             </div>
           </div>
         </div>

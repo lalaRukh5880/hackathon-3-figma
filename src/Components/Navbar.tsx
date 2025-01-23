@@ -1,9 +1,17 @@
 "use client";
-import React, { useState } from 'react';
-import Link from 'next/link';
-import { FaSearch, FaShoppingBag, FaUser } from 'react-icons/fa';
+import { useContext } from "react";
+import React from "react";
+import Link from "next/link";
+import { FaSearch, FaShoppingBag, FaUser } from "react-icons/fa";
+import { CartContext } from "../lib/CartContext";
 
 const Navbar: React.FC = () => {
+    // Access the cart context
+    const { cartItems } = useContext(CartContext);
+
+    // Calculate the total number of items in the cart
+    const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+
     return (
         <nav className="flex items-center justify-between p-4 bg-black">
             {/* Logo on the Left */}
@@ -44,14 +52,21 @@ const Navbar: React.FC = () => {
                 </button>
 
                 {/* Login Icon */}
-                <button aria-label="Login">
+                <Link href="/sign-in" aria-label="Login">
                     <FaUser className="text-white text-lg hover:text-[#FF9F0D]" />
-                </button>
+                </Link>
 
-                {/* Shopping Cart Icon */}
-                <button aria-label="Shopping Cart">
-                    <FaShoppingBag className="text-white text-lg hover:text-[#FF9F0D]" />
-                </button>
+                {/* Shopping Cart Icon with Badge */}
+                <Link href="/cart" aria-label="Shopping Cart">
+                    <div className="relative">
+                        <FaShoppingBag className="text-white text-lg hover:text-[#FF9F0D]" />
+                        {totalItems > 0 && (
+                            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                                {totalItems}
+                            </span>
+                        )}
+                    </div>
+                </Link>
             </div>
         </nav>
     );
