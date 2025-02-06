@@ -1,6 +1,6 @@
    
 
-export default {
+export const order = {
     name: 'order',
     type: 'document',
     title: 'Order',

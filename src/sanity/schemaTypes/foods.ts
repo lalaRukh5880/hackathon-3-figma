@@ -1,4 +1,4 @@
-export default {
+export const food = {
     name: 'food',
     type: 'document',
     title: 'Food',
