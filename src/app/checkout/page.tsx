@@ -14,7 +14,7 @@ const cities: Record<string, string[]> = {
     "Karachi", "Lahore", "Islamabad", "Rawalpindi", "Faisalabad", "Peshawar",
     "Quetta", "Multan", "Sialkot", "Gujranwala", "Sargodha", "Bahawalpur",
     "Sukkur", "Larkana", "Sheikhupura", "Jhang", "Gujrat", "Mardan",
-    "Kasur", "Dera Ghazi Khan"
+    "Kasur", "Dera Ghazi Khan" , "Dadu"
   ]
 };
 
