@@ -26,7 +26,9 @@ const Leftside = () => {
            no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, 
            consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et 
            dolore magna aliquyam erat</p>
-       <Link href="/blogdetail"><button className='w-[172px] h-[52px] text-[#FF9F0D] border-[#FF9F0D] border-[2px] rounded-sm my-8 px-8'>Read More </button></Link>
+           <Link href="/bloglist/1">
+  <button className='w-[172px] h-[52px] text-[#FF9F0D] border-[#FF9F0D] border-[2px] rounded-sm my-8 px-8'>Read More</button>
+</Link>
     
        {/* second div */}
        <div className='md:max-w-[871px] h-[520px] bg-[url(/blog/blog2.png)] bg-cover bg-center'>
@@ -45,7 +47,9 @@ const Leftside = () => {
            no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, 
            consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et 
            dolore magna aliquyam erat</p>
-       <button className='w-[172px] h-[52px] text-[#FF9F0D] border-[#FF9F0D] border-[2px] rounded-sm my-8 px-8'>Read More </button>
+           <Link href="/bloglist/1">
+  <button className='w-[172px] h-[52px] text-[#FF9F0D] border-[#FF9F0D] border-[2px] rounded-sm my-8 px-8'>Read More</button>
+</Link>
     
       {/* third div */}
        <div className='md:max-w-[871px] h-[520px] bg-[url(/blog/blog3.png)] bg-cover bg-center'>
@@ -64,7 +68,9 @@ const Leftside = () => {
            no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, 
            consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et 
            dolore magna aliquyam erat</p>
-       <button className='w-[172px] h-[52px] text-[#FF9F0D] border-[#FF9F0D] border-[2px] rounded-sm my-8 px-8'>Read More </button>
+           <Link href="/bloglist/1">
+  <button className='w-[172px] h-[52px] text-[#FF9F0D] border-[#FF9F0D] border-[2px] rounded-sm my-8 px-8'>Read More</button>
+</Link>
 
        {/* fourth div */}
        <div className='md:max-w-[871px] h-[520px] bg-[url(/blog/blog4.png)] bg-cover bg-center'>
@@ -83,7 +89,9 @@ const Leftside = () => {
            no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, 
            consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et 
            dolore magna aliquyam erat</p>
-       <button className='w-[172px] h-[52px] text-[#FF9F0D] border-[#FF9F0D] border-[2px] rounded-sm my-8 px-8'>Read More </button>
+           <Link href="/bloglist/1">
+  <button className='w-[172px] h-[52px] text-[#FF9F0D] border-[#FF9F0D] border-[2px] rounded-sm my-8 px-8'>Read More</button>
+</Link>
        <div className='md:max-w-[306px] h-[51px] bg-[url(/pagination.png)] flex justify-center my-11 ml-60 mb-32'></div>
     
     </div>
