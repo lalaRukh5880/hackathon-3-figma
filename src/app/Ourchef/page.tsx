@@ -13,7 +13,7 @@ interface IChef {
   image_url: string;
 }
 
-const ourchef = () => {
+const Ourchef = () => {
   const [chefs, setChefs] = useState<IChef[]>([]);
 
   useEffect(() => {
@@ -81,4 +81,4 @@ const ourchef = () => {
   );
 };
 
-export default ourchef;
+export default Ourchef;
