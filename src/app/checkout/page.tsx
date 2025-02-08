@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Food } from '@/types/foods';
 import { getCartItems } from '../actions/actions'
 import Swal from 'sweetalert2';
@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { urlFor } from '@/sanity/lib/image';
 import { useRouter } from 'next/navigation';
 import { client } from '@/sanity/lib/client';
+import { CartContext } from '@/lib/CartContext';
 
 const countries = ["Pakistan"];
 const cities: Record<string, string[]> = {
@@ -14,12 +15,12 @@ const cities: Record<string, string[]> = {
     "Karachi", "Lahore", "Islamabad", "Rawalpindi", "Faisalabad", "Peshawar",
     "Quetta", "Multan", "Sialkot", "Gujranwala", "Sargodha", "Bahawalpur",
     "Sukkur", "Larkana", "Sheikhupura", "Jhang", "Gujrat", "Mardan",
-    "Kasur", "Dera Ghazi Khan" , "Dadu"
+    "Kasur", "Dera Ghazi Khan", "Dadu"
   ]
 };
 
 const CheckoutPage = () => {
-  const [cartItems, setCartItems] = useState<Food[]>([]);
+  const [cartItems, setCartItems] = useState<Food[]>([]) as any;
   const [discount, setDiscount] = useState<number>(0);
   const [userDetails, setUserDetails] = useState({
     firstName: '',
@@ -43,12 +44,14 @@ const CheckoutPage = () => {
     city: false,
     zipCode: false,
     address1: false,
-     address2: false,
+    address2: false,
   });
 
   const router = useRouter();
-
+  const { cartItems: carts, dispatch } = useContext(CartContext);
+  console.log('carts: ', carts);
   useEffect(() => {
+
     setCartItems(getCartItems());
     const appliedDiscount = localStorage.getItem("appliedDiscount");
     if (appliedDiscount) {
@@ -64,9 +67,12 @@ const CheckoutPage = () => {
   };
 
   const calculatedTotal = () => {
-    const total = cartItems.reduce((total, item) => total + item.price * item.inventory, 0);
+    console.log('cartItems: ', cartItems);
+    const total = cartItems?.reduce((total, item) => total + item.price * item.quantity, 0);
+    console.log('total: ', total);
     return total - discount; // Apply discount here
   };
+  calculatedTotal()
 
   const validateForm = () => {
     const errors = {
@@ -78,77 +84,77 @@ const CheckoutPage = () => {
       city: !userDetails.city,
       zipCode: !userDetails.zipCode,
       address1: !userDetails.address1,
-    address2: !userDetails.address2,
+      address2: !userDetails.address2,
     };
-    
+
     setFormErrors(errors);
     return Object.values(errors).every((error) => !error);
   };
 
-  
+
   const handleProceedToShipping = async () => {
     if (!validateForm()) {
-   localStorage.removeItem("appliedDiscount"); // Clear discount if form is invalid
-   Swal.fire({
-     icon: 'error',
-     title: 'Error',
-     text: 'Please fill in all the required fields.',
-   });
-   return;
- }
+      localStorage.removeItem("appliedDiscount"); // Clear discount if form is invalid
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Please fill in all the required fields.',
+      });
+      return;
+    }
 
- // Show a loading message before proceeding
- Swal.fire({
-   title: 'Please wait a moment...',
-   text: 'Processing your request...',
-   allowOutsideClick: false,
-   didOpen: () => {
-     Swal.showLoading();
-   }
- });
+    // Show a loading message before proceeding
+    Swal.fire({
+      title: 'Please wait a moment...',
+      text: 'Processing your request...',
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
 
- // Simulate a short delay for a better UX
- setTimeout(() => {
-   Swal.fire({
-     icon: 'success',
-     title: 'Success!',
-     text: 'Proceeding to shipping!',
-   });
- }, 1500); // Adjust time as needed
+    // Simulate a short delay for a better UX
+    setTimeout(() => {
+      Swal.fire({
+        icon: 'success',
+        title: 'Success!',
+        text: 'Proceeding to shipping!',
+      });
+    }, 1500); // Adjust time as needed
 
 
-  const orderData = {
-   _type : 'order',
-   firstName : userDetails.firstName,
-   lastName : userDetails.lastName,
-   email : userDetails.email,
-   phone : userDetails.phone,
-   company : userDetails.company,
-   country : userDetails.country,
-   city : userDetails.city,
-   zipCode : userDetails.zipCode || "",
-   address1 : userDetails.address1,
-   address2 : userDetails.address2 || "",
-   cartItems : cartItems.map((item) => ({
-        _type:'reference',
-         _ref : item._id
-   })),
-   total : calculatedTotal(),
-   discount : discount,
-   orderDate : new Date().toISOString()
+    const orderData = {
+      _type: 'order',
+      firstName: userDetails.firstName,
+      lastName: userDetails.lastName,
+      email: userDetails.email,
+      phone: userDetails.phone,
+      company: userDetails.company,
+      country: userDetails.country,
+      city: userDetails.city,
+      zipCode: userDetails.zipCode || "",
+      address1: userDetails.address1,
+      address2: userDetails.address2 || "",
+      cartItems: cartItems.map((item) => ({
+        _type: 'reference',
+        _ref: item._id
+      })),
+      total: calculatedTotal(),
+      discount: discount,
+      orderDate: new Date().toISOString()
+    };
+    try {
+      await client.create(orderData);
+      localStorage.removeItem("appliedDiscount");
+    } catch (error) {
+      console.error('Failed to create order', error);
+
+    }
   };
-  try {
-   await client.create(orderData);
-   localStorage.removeItem("appliedDiscount");
-  }catch(error){
-   console.error('Failed to create order',error);
-  
-  }
- };
- 
 
 
- 
+
+
   // const handleProceedToShipping = async () => {
   //   if (!validateForm()) {
   //     Swal.fire({
@@ -158,7 +164,7 @@ const CheckoutPage = () => {
   //     });
   //     return;
   //   }
-  
+
   //   // Show a loading message before proceeding
   //   Swal.fire({
   //     title: 'Processing your order...',
@@ -167,7 +173,7 @@ const CheckoutPage = () => {
   //       Swal.showLoading();
   //     }
   //   });
-  
+
   //   const orderData = {
   //     _type: 'order',
   //     firstName: userDetails.firstName,
@@ -188,17 +194,17 @@ const CheckoutPage = () => {
   //     discount: discount,
   //     orderDate: new Date().toISOString(),
   //   };
-  
+
   //   try {
   //     await client.create(orderData);
   //     localStorage.removeItem("appliedDiscount");
-  
+
   //     Swal.fire({
   //       icon: 'success',
   //       title: 'Order Placed!',
   //       text: 'Your order has been successfully created!',
   //     });
-  
+
   //     router.push('/order-confirmation'); // Redirect to confirmation page
   //   } catch (error) {
   //     console.error('Failed to create order', error);
@@ -209,8 +215,8 @@ const CheckoutPage = () => {
   //     });
   //   }
   // };
-  
-  
+
+
 
   return (
     <div className="w-full mx-auto p-4 md:p-6 lg:p-8 bg-white">
@@ -320,17 +326,17 @@ const CheckoutPage = () => {
         <div className="bg-white shadow-md rounded-lg  p-4 lg:w-[30%]">
           <h2 className="text-xl font-bold mb-4">Order Summary</h2>
           <ul>
-            {cartItems.map((item) => (
+            {cartItems?.map((item) => (
               <li key={item._id} className="flex items-center justify-between mb-4 border-b pb-2">
                 <Image
-                  src={urlFor(item.image).url()}
-                  width={50}
-                  height={50}
+                  src={item.imageUrl}
                   alt={item.name}
-                  className="w-12 h-12 rounded-md"
+                  width={120}
+                  height={120}
+                  className="rounded-md object-cover w-full sm:w-[120px] h-auto"
                 />
                 <span className="flex-1 ml-4">{item.name}</span>
-                <span>${(item.price * item.inventory).toFixed(2)}</span>
+                <span>${(item.price * item.quantity).toFixed(2)}</span>
               </li>
             ))}
             <li className="flex justify-between pt-2">

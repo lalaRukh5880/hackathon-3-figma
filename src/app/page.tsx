@@ -1,8 +1,12 @@
 import About from "@/Components/About";
 import Food from "@/Components/Food";
 import Hero from "@/Components/Hero";
+import Hero2 from "@/Components/Hero2";
 
-import Hero3 from "@/Components/Hero3";
+
+
+
+
 
 
 
@@ -12,7 +16,10 @@ export default function Home() {
     <Hero /> 
     <About />
     <Food />
-    <Hero3 />
+    <Hero2 />
+    
+    
+   
   </div>
   )
 }
